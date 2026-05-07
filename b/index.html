@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breizh - Accueil</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bleu-breton: #003d66;
+            --bleu-clair: #0066cc;
+            --blanc: #f8f7f5;
+            --noir: #1a1a1a;
+            --gris: #6b7280;
+            --bordure: #e5e7eb;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--blanc);
+            color: var(--noir);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--bleu-breton) 0%, #005080 100%);
+            color: var(--blanc);
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .lang-switcher {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: var(--blanc);
+            padding: 0.4rem 0.8rem;
+            cursor: pointer;
+            font-size: 0.8rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: var(--blanc);
+            color: var(--bleu-breton);
+            font-weight: 600;
+        }
+
+        main {
+            background: linear-gradient(180deg, var(--blanc) 0%, #f0ebe5 100%);
+            min-height: calc(100vh - 70px);
+            padding: 3rem 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .home-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .home-title h2 {
+            font-size: 2.5rem;
+            color: var(--bleu-breton);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .home-title p {
+            font-size: 1.1rem;
+            color: var(--gris);
+            max-width: 600px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        .menu-card {
+            background: var(--blanc);
+            border: 2px solid var(--bordure);
+            border-radius: 8px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .menu-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--bleu-breton), #005080);
+        }
+
+        .menu-card:hover {
+            border-color: var(--bleu-breton);
+            box-shadow: 0 12px 24px rgba(0, 51, 102, 0.15);
+            transform: translateY(-4px);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .menu-card h3 {
+            font-size: 1.3rem;
+            color: var(--bleu-breton);
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+
+        .menu-card p {
+            color: var(--gris);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.5rem;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .home-title h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Breizh</h1>
+        <div class="lang-switcher">
+            <button class="lang-btn active" onclick="switchLang('fr')">FR</button>
+            <button class="lang-btn" onclick="switchLang('br')">BR</button>
+        </div>
+    </header>
+
+    <main>
+        <div class="home-title">
+            <h2 id="title">Explorez la Bretagne</h2>
+            <p id="subtitle">Découvrez la richesse de la langue bretonne à travers des activités interactives</p>
+        </div>
+
+        <div class="menu-grid">
+            <a href="flashcards.html" class="menu-card">
+                <span class="card-icon">▬▬▬</span>
+                <h3 id="card1">Mots Bretons</h3>
+                <p id="card1-desc">Apprenez 18 mots bretons courants avec nos flashcards interactives</p>
+            </a>
+
+            <a href="quizz.html" class="menu-card">
+                <span class="card-icon">❔</span>
+                <h3 id="card2">Quizz Historique</h3>
+                <p id="card2-desc">Testez vos connaissances sur l'histoire et la culture bretonne</p>
+            </a>
+
+            <a href="expressions.html" class="menu-card">
+                <span class="card-icon">💬</span>
+                <h3 id="card3">Expressions Bretonnes</h3>
+                <p id="card3-desc">Devinez le sens de 7 expressions et proverbes traditionnels</p>
+            </a>
+
+            <a href="video.html" class="menu-card">
+                <span class="card-icon">▶</span>
+                <h3 id="card4">Ressources Vidéo</h3>
+                <p id="card4-desc">Découvrez des vidéos et contenus audiovisuels sur la langue bretonne</p>
+            </a>
+        </div>
+    </main>
+
+    <script>
+        const translations = {
+            fr: {
+                title: "Explorez la Bretagne",
+                subtitle: "Découvrez la richesse de la langue bretonne à travers des activités interactives",
+                card1: "Mots Bretons",
+                card1desc: "Apprenez 18 mots bretons courants avec nos flashcards interactives",
+                card2: "Quizz Historique",
+                card2desc: "Testez vos connaissances sur l'histoire et la culture bretonne",
+                card3: "Expressions Bretonnes",
+                card3desc: "Devinez le sens de 7 expressions et proverbes traditionnels",
+                card4: "Ressources Vidéo",
+                card4desc: "Découvrez des vidéos et contenus audiovisuels sur la langue bretonne"
+            },
+            br: {
+                title: "Hengouell Breizh",
+                subtitle: "Desked ar brezhoneg dre oberoù rouedad",
+                card1: "Gerioù Breizh",
+                card1desc: "Youc'h 18 gerioù komzoù breizh",
+                card2: "Testen Istorig",
+                card2desc: "Testoñ ho yezh diwar-benn istor Breizh",
+                card3: "Komzoued Breizh",
+                card3desc: "Gouskit stumm 7 komzoued hengounel",
+                card4: "Videoioù",
+                card4desc: "Videoioù diwar-benn ar brezhoneg"
+            }
+        };
+
+        function switchLang(lang) {
+            localStorage.setItem('language', lang);
+            const t = translations[lang];
+            document.getElementById('title').textContent = t.title;
+            document.getElementById('subtitle').textContent = t.subtitle;
+            document.getElementById('card1').textContent = t.card1;
+            document.getElementById('card1-desc').textContent = t.card1desc;
+            document.getElementById('card2').textContent = t.card2;
+            document.getElementById('card2-desc').textContent = t.card2desc;
+            document.getElementById('card3').textContent = t.card3;
+            document.getElementById('card3-desc').textContent = t.card3desc;
+            document.getElementById('card4').textContent = t.card4;
+            document.getElementById('card4-desc').textContent = t.card4desc;
+
+            document.querySelectorAll('.lang-btn').forEach((btn, i) => {
+                btn.classList.remove('active');
+                if ((lang === 'fr' && i === 0) || (lang === 'br' && i === 1)) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('load', () => {
+            const lang = localStorage.getItem('language') || 'fr';
+            switchLang(lang);
+        });
+    </script>
+</body>
+</html>
