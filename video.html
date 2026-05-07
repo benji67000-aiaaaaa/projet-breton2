@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breizh - Vidéos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bleu-breton: #003d66;
+            --bleu-clair: #0066cc;
+            --blanc: #f8f7f5;
+            --noir: #1a1a1a;
+            --gris: #6b7280;
+            --bordure: #e5e7eb;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--blanc);
+            color: var(--noir);
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--bleu-breton) 0%, #005080 100%);
+            color: var(--blanc);
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .lang-switcher {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: var(--blanc);
+            padding: 0.4rem 0.8rem;
+            cursor: pointer;
+            font-size: 0.8rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: var(--blanc);
+            color: var(--bleu-breton);
+            font-weight: 600;
+        }
+
+        main {
+            background: var(--blanc);
+            min-height: calc(100vh - 70px);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .page-content {
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .page-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .btn-back {
+            background: var(--blanc);
+            color: var(--bleu-breton);
+            border: 2px solid var(--bleu-breton);
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-back:hover {
+            background: var(--bleu-breton);
+            color: var(--blanc);
+        }
+
+        .page-title {
+            color: var(--bleu-breton);
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .video-placeholder {
+            background: linear-gradient(135deg, var(--bleu-breton), #005080);
+            color: var(--blanc);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            max-width: 500px;
+            box-shadow: 0 12px 24px rgba(0, 51, 102, 0.2);
+            margin: 0 auto;
+        }
+
+        video {
+            border-radius: 8px;
+            width: 100%;
+            max-width: 500px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Breizh</h1>
+        <div class="lang-switcher">
+            <button class="lang-btn active" onclick="switchLang('fr')">FR</button>
+            <button class="lang-btn" onclick="switchLang('br')">BR</button>
+        </div>
+    </header>
+
+    <main>
+        <div class="page-content">
+            <div class="page-header">
+                <a href="index.html" class="btn-back">← Retour</a>
+                <h2 class="page-title" id="page-title">Ressources Vidéo</h2>
+            </div>
+
+            <div class="video-placeholder">
+                <video width="100%" height="400" controls>
+                    <source src="videobreton.MP4" type="video/mp4">
+                    Ton navigateur ne supporte pas les vidéos HTML5.
+                </video>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const translations = {
+            fr: {
+                pageTitle: "Ressources Vidéo"
+            },
+            br: {
+                pageTitle: "Videoioù"
+            }
+        };
+
+        function switchLang(lang) {
+            localStorage.setItem('language', lang);
+            const t = translations[lang];
+            
+            document.getElementById('page-title').textContent = t.pageTitle;
+
+            document.querySelectorAll('.lang-btn').forEach((btn, i) => {
+                btn.classList.remove('active');
+                if ((lang === 'fr' && i === 0) || (lang === 'br' && i === 1)) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('load', () => {
+            const lang = localStorage.getItem('language') || 'fr';
+            switchLang(lang);
+        });
+    </script>
+</body>
+</html>

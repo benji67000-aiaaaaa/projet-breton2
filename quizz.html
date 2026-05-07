@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breizh - Quizz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bleu-breton: #003d66;
+            --bleu-clair: #0066cc;
+            --blanc: #f8f7f5;
+            --noir: #1a1a1a;
+            --gris: #6b7280;
+            --bordure: #e5e7eb;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--blanc);
+            color: var(--noir);
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--bleu-breton) 0%, #005080 100%);
+            color: var(--blanc);
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .lang-switcher {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: var(--blanc);
+            padding: 0.4rem 0.8rem;
+            cursor: pointer;
+            font-size: 0.8rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: var(--blanc);
+            color: var(--bleu-breton);
+            font-weight: 600;
+        }
+
+        main {
+            background: var(--blanc);
+            min-height: calc(100vh - 70px);
+            padding: 2rem;
+        }
+
+        .page-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn-back {
+            background: var(--blanc);
+            color: var(--bleu-breton);
+            border: 2px solid var(--bleu-breton);
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-back:hover {
+            background: var(--bleu-breton);
+            color: var(--blanc);
+        }
+
+        .page-title {
+            color: var(--bleu-breton);
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .quiz-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .quiz-question {
+            background: var(--blanc);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 2px solid var(--bordure);
+        }
+
+        .quiz-question h3 {
+            color: var(--bleu-breton);
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .quiz-option {
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .quiz-option input[type="radio"] {
+            margin-top: 0.3rem;
+            margin-right: 1rem;
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--bleu-breton);
+            flex-shrink: 0;
+        }
+
+        .quiz-option label {
+            cursor: pointer;
+            flex: 1;
+            padding: 0.7rem;
+            border-radius: 6px;
+            background: var(--blanc);
+            border: 1px solid var(--bordure);
+            transition: all 0.2s ease;
+        }
+
+        .quiz-option input[type="radio"]:checked + label {
+            background: rgba(0, 51, 102, 0.1);
+            border-color: var(--bleu-breton);
+        }
+
+        .quiz-option label:hover {
+            border-color: var(--bleu-breton);
+            background: rgba(0, 51, 102, 0.05);
+        }
+
+        .quiz-option.correct label {
+            background: rgba(76, 175, 80, 0.15);
+            border-color: #4CAF50;
+            color: #2e7d32;
+            font-weight: 600;
+        }
+
+        .quiz-option.incorrect label {
+            background: rgba(244, 67, 54, 0.15);
+            border-color: #f44336;
+            color: #c62828;
+            font-weight: 600;
+        }
+
+        .btn {
+            padding: 0.8rem 1.8rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn-primary {
+            background: var(--bleu-breton);
+            color: var(--blanc);
+        }
+
+        .btn-primary:hover {
+            background: #005080;
+            box-shadow: 0 6px 12px rgba(0, 51, 102, 0.3);
+        }
+
+        .quiz-results {
+            background: rgba(76, 175, 80, 0.1);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #4CAF50;
+            display: none;
+            margin-top: 2rem;
+        }
+
+        .quiz-results.visible {
+            display: block;
+        }
+
+        .quiz-results h4 {
+            color: var(--bleu-breton);
+            margin-bottom: 0.5rem;
+        }
+
+        .quiz-results p {
+            color: #2e7d32;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Breizh</h1>
+        <div class="lang-switcher">
+            <button class="lang-btn active" onclick="switchLang('fr')">FR</button>
+            <button class="lang-btn" onclick="switchLang('br')">BR</button>
+        </div>
+    </header>
+
+    <main>
+        <div class="page-content">
+            <div class="page-header">
+                <a href="index.html" class="btn-back">← Retour</a>
+                <h2 class="page-title" id="page-title">Quizz Historique</h2>
+            </div>
+
+            <div class="quiz-content" id="quiz-container"></div>
+
+            <button class="btn btn-primary" onclick="submitQuiz()" id="submit-btn">Vérifier mes réponses</button>
+
+            <div class="quiz-results" id="quiz-results"></div>
+        </div>
+    </main>
+
+    <script>
+        const quizQuestions = [
+            {
+                question: "En quelle période le breton a-t-il commencé à être parlé en Bretagne ?",
+                options: ["3e-6e siècle", "10e-11e siècle", "15e-16e siècle"],
+                correct: 0
+            },
+            {
+                question: "Le breton appartient à quelle famille linguistique ?",
+                options: ["Langues romanes", "Langues celtiques", "Langues germaniques"],
+                correct: 1
+            },
+            {
+                question: "Combien de locuteurs natifs le breton a-t-il environ aujourd'hui ?",
+                options: ["50 000", "200 000", "1 million"],
+                correct: 1
+            },
+            {
+                question: "Quel événement a marqué le déclin du breton au 17e-18e siècle ?",
+                options: ["La Révolution française", "L'unification avec la France", "Les guerres de religion"],
+                correct: 1
+            },
+            {
+                question: "Le breton partage des racines avec quel autre peuple celtique ?",
+                options: ["Les Écossais", "Les Irlandais", "Les Gallois"],
+                correct: 2
+            },
+            {
+                question: "Quelle est la région française où le breton est parlé ?",
+                options: ["Normandie", "Bretagne", "Pays de la Loire"],
+                correct: 1
+            },
+            {
+                question: "Existe-t-il des écoles publiques où l'on enseigne le breton ?",
+                options: ["Non", "Oui, depuis les années 1980", "Oui, depuis toujours"],
+                correct: 1
+            },
+            {
+                question: "Le breton écrit utilise-t-il l'alphabet latin ?",
+                options: ["Oui", "Non, alphabet celtique", "Non, alphabet grec"],
+                correct: 0
+            },
+            {
+                question: "Quelle est la capitale historique de la Bretagne ?",
+                options: ["Rennes", "Brest", "Vannes"],
+                correct: 0
+            },
+            {
+                question: "Le breton a-t-il des dialectes régionaux ?",
+                options: ["Non", "Oui, 2 dialectes", "Oui, 4 dialectes"],
+                correct: 2
+            },
+            {
+                question: "En breton, comment dit-on 'Bretagne' ?",
+                options: ["Britanny", "Breizh", "Britannia"],
+                correct: 1
+            },
+            {
+                question: "Le breton est-il reconnu comme langue officielle en France ?",
+                options: ["Oui", "Non", "Partiellement depuis 2024"],
+                correct: 1
+            }
+        ];
+
+        const translations = {
+            fr: {
+                pageTitle: "Quizz Historique",
+                submitBtn: "Vérifier mes réponses",
+                results: "Résultats",
+                score: (correct, total, percent) => `Vous avez réussi ${correct} sur ${total} questions (${percent}%)`
+            },
+            br: {
+                pageTitle: "Testen Istorig",
+                submitBtn: "Gwiriañ ma respontoù",
+                results: "Disoc'h",
+                score: (correct, total, percent) => `Reuzet hoc'h eus ${correct} war ${total} goulennoù (${percent}%)`
+            }
+        };
+
+        let currentAnswers = new Array(quizQuestions.length).fill(null);
+        let quizSubmitted = false;
+
+        function createQuiz() {
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = '';
+
+            quizQuestions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'quiz-question';
+                questionDiv.innerHTML = `
+                    <h3>${q.question}</h3>
+                    <div class="quiz-options">
+                        ${q.options.map((option, optIndex) => `
+                            <div class="quiz-option" id="option-${index}-${optIndex}">
+                                <input type="radio" id="q${index}-o${optIndex}" name="question${index}" value="${optIndex}" onchange="updateAnswer(${index}, ${optIndex})">
+                                <label for="q${index}-o${optIndex}">${option}</label>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+        }
+
+        function updateAnswer(questionIndex, optionIndex) {
+            currentAnswers[questionIndex] = optionIndex;
+        }
+
+        function submitQuiz() {
+            quizSubmitted = true;
+            let correct = 0;
+
+            quizQuestions.forEach((q, index) => {
+                const options = document.querySelectorAll(`.quiz-option[id^="option-${index}-"]`);
+                options.forEach((opt, optIndex) => {
+                    opt.classList.remove('correct', 'incorrect');
+                    if (optIndex === q.correct) {
+                        opt.classList.add('correct');
+                        if (currentAnswers[index] === q.correct) {
+                            correct++;
+                        }
+                    } else if (currentAnswers[index] === optIndex) {
+                        opt.classList.add('incorrect');
+                    }
+                });
+            });
+
+            const total = quizQuestions.length;
+            const percent = Math.round((correct / total) * 100);
+            const lang = localStorage.getItem('language') || 'fr';
+            const t = translations[lang];
+
+            const resultsDiv = document.getElementById('quiz-results');
+            resultsDiv.innerHTML = `
+                <h4>${t.results}</h4>
+                <p>${t.score(correct, total, percent)}</p>
+            `;
+            resultsDiv.classList.add('visible');
+        }
+
+        function switchLang(lang) {
+            localStorage.setItem('language', lang);
+            const t = translations[lang];
+            
+            document.getElementById('page-title').textContent = t.pageTitle;
+            document.getElementById('submit-btn').textContent = t.submitBtn;
+
+            document.querySelectorAll('.lang-btn').forEach((btn, i) => {
+                btn.classList.remove('active');
+                if ((lang === 'fr' && i === 0) || (lang === 'br' && i === 1)) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('load', () => {
+            const lang = localStorage.getItem('language') || 'fr';
+            switchLang(lang);
+            createQuiz();
+        });
+    </script>
+</body>
+</html>
